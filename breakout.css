@@ -1,0 +1,70 @@
+@font-face {
+    font-family: "AnjaEliane";
+    src: url(Anja\ Eliane\ accent002.ttf);
+}
+
+:root {
+    --wall-width: 0;
+    --wall-height: 0;
+}
+
+* {
+    font-family: "AnjaEliane";
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 2vmin;
+    box-sizing: border-box;
+}
+
+header {
+    height: 12%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 9vh;
+
+    border: 1px solid black;
+}
+
+main {
+    height: 88%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid black;
+}
+
+#game {
+    width: 80vmin;
+    height: 80vmin;
+
+    border: 1px solid black;
+}
+
+#wall {
+    width: calc(var(--wall-width) * 10vmin);
+    height: calc(var(--wall-height) * 5vmin);
+    margin: 5vmin;
+    display: grid;
+    grid-template: repeat(var(--wall-height), 1fr) / repeat(var(--wall-width), 1fr);
+    border: 1px solid black;
+}
+
+.brick {
+    width: 9vmin;
+    height: 4vmin;
+    border: 0.5vmin solid black;
+    border-radius: 1vmin;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
