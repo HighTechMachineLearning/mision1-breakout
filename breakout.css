@@ -3,6 +3,12 @@
     src: url(Anja\ Eliane\ accent002.ttf);
 }
 
+:root {
+    --brick-width: 10vmin;
+    --brick-height: 5vmin;
+    --brick-border-width: 0.5vmin;
+}
+
 * {
     font-family: "AnjaEliane";
 }
@@ -58,14 +64,16 @@ main {
 
 .brick {
     position: absolute;
-    width: 9vmin;
-    height: 4vmin;
-    border: 0.5vmin solid black;
+    width: calc(var(--brick-width) - 2 * var(--brick-border-width));
+    height: calc(var(--brick-height) - 2 * var(--brick-border-width));
+    border: var(--brick-border-width) solid black;
     border-radius: 1vmin;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-size: calc(var(--brick-height) / 2);
 }
 
 #paddle {
