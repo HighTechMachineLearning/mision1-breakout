@@ -1,16 +1,6 @@
 const WALL_WIDTH = 7;
 const WALL_HEIGHT = 7;
-document.documentElement.style.setProperty("--wall-width", WALL_WIDTH);
-document.documentElement.style.setProperty("--wall-height", WALL_HEIGHT);
-
-const wall = document.getElementById("wall");
-for (let i = 0; i < WALL_WIDTH * WALL_HEIGHT; i++) {
-    wall.innerHTML += brick_html(i);
-}
-
-function brick_html(num) {
-    return '<div class="brick">' + num + '</div>';
-}
+const MARGIN = 0.0625;
 
 const game = (() => {
     const element = document.getElementById("game");
@@ -26,7 +16,7 @@ const paddle = (() => {
     const rect = element.getBoundingClientRect();
     return {
         x: game.width / 2 - rect.width / 2,
-        y: game.height * 0.90625,
+        y: (1 - MARGIN) * game.height - rect.height,
         width: rect.width,
         height: rect.height,
         element: element,
@@ -46,6 +36,29 @@ const ball = (() => {
         element: element,
     }
 })();
+
+function brick_id(x, y) { return "b_" + x + "_" + y };
+const wall = document.getElementById("wall");
+let bricks = [];
+for (let y = 0; y < WALL_HEIGHT; y++) {
+    for (let x = 0; x < WALL_WIDTH; x++) {
+        const id = brick_id(x, y);
+        wall.innerHTML += '<div class="brick" id="' + id + '">' + id + '</div>';
+    }
+}
+const example_brick = document.getElementById(brick_id(0, 0)).getBoundingClientRect();
+const brick_width = example_brick.width;
+const brick_height = example_brick.height;
+const offset = (game.width - (brick_width + 1) * WALL_WIDTH - 1) / 2;
+for (let y = 0; y < WALL_HEIGHT; y++) {
+    for (let x = 0; x < WALL_WIDTH; x++) {
+        bricks.push({
+            x: offset + x * (brick_width + 1),
+            y: MARGIN * game.height + y * (brick_height + 1),
+            element: document.getElementById(brick_id(x, y)),
+        });
+    }
+}
 
 let mouseX = 0;
 let mouseY = 0;
@@ -77,6 +90,9 @@ function tick() {
 function update_screen() {
     paddle.element.style.translate = paddle.x + "px " + paddle.y + "px";
     ball.element.style.translate = ball.x + "px " + ball.y + "px";
+    for (let brick of bricks) {
+        brick.element.style.translate = brick.x + "px " + brick.y + "px";
+    }
 }
 
 function clamp(x, a, b) {
